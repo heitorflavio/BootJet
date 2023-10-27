@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,15 +19,13 @@ use Inertia\Inertia;
 
 
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+    'auth',
 ])->group(function () {
     Route::get('/', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
 
-Route::get('/login', function () {
-    return Inertia::render('Auth/Login');
-})->name('login');
+Route::get('/login',  [App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::post('/login',  [App\Http\Controllers\AuthController::class, 'auth'])->name('auth');
+Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
